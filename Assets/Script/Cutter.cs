@@ -5,6 +5,13 @@ namespace Script
 {
     public class Cutter : MonoBehaviour
     {
+        public int speed;
+
+        private void Update()
+        {
+            transform.position += Vector3.right*Time.deltaTime*speed;
+        }
+
         public void Cut(Transform cutter)
         {
             if (cutter.transform.position.x < 0)
@@ -60,12 +67,16 @@ namespace Script
             }
         }
 
-        private void OnTriggerEnter(Collider other)
+        private void OnTriggerStay(Collider other)
         {
-            if (other.gameObject.CompareTag($"Platform"))
+            if (Input.GetMouseButtonDown(0))
             {
-                Cut(other.gameObject.transform);
+                if (other.gameObject.CompareTag($"Platform"))
+                {
+                    Cut(other.gameObject.transform);
+                }
             }
+           
         }
     }
 }
