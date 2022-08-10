@@ -15,8 +15,10 @@ namespace Script
         [SerializeField] public List<GameObject> platformPool;
         private Queue<GameObject> _platformQueue = new();
         [SerializeField] private List<GameObject> slicedItemPool;
-       
-        
+        [SerializeField] private SlicerLeft slicerLeft;
+        [SerializeField] private SlicerRight slicerRight;
+        private GameObject _currentPlatform;
+
 
         private Vector3 _defaultScale;
 
@@ -26,6 +28,7 @@ namespace Script
 
         private void OnEnable()
         {
+            EventManager.OnClickPressed.AddListener(SetSlicersTransform);
             EventManager.OnClickPressed.AddListener(TriggerPlatformItem);
             PlatformProperty();
         }
@@ -53,6 +56,7 @@ namespace Script
 
         private void OnDisable()
         {
+            EventManager.OnClickPressed.RemoveListener(SetSlicersTransform);
             EventManager.OnClickPressed.RemoveListener(TriggerPlatformItem);
         }
 
@@ -66,9 +70,24 @@ namespace Script
             _defaultScale = currentPlatform.transform.localScale;
         }
 
+        private void SetSlicersTransform()
+        {
+            if (GameManager.Instance.gameState != GameState.Running) return;
+            slicerLeft.transform.SetParent(_currentPlatform.transform);
+            slicerLeft.transform.position =
+                new Vector3(_currentPlatform.transform.position.x - _currentPlatform.transform.localScale.x / 2,
+                    _currentPlatform.transform.position.y, forwardOffset);
+            
+            slicerRight.transform.SetParent(_currentPlatform.transform);
+            slicerRight.transform.position =
+                new Vector3(_currentPlatform.transform.position.x + _currentPlatform.transform.localScale.x / 2,
+                    _currentPlatform.transform.position.y, forwardOffset);
+        }
+
         private void TriggerPlatformItem()
         {
             var currentItem = GetPoolItem();
+            _currentPlatform = currentItem.gameObject;
             currentItem.transform.position += Vector3.forward * forwardOffset;
             currentItem.Move();
             StartCoroutine(ReturnPool(currentItem.gameObject));
