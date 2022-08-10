@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DG.Tweening;
 using UnityEngine;
 using UnityEngine.Events;
 
@@ -10,10 +11,12 @@ namespace Script
     {
         #region fields
 
-        [SerializeField] private float forwardOffset = 3;
+        [SerializeField] private int forwardOffset = 3;
         [SerializeField] public List<GameObject> platformPool;
         private Queue<GameObject> _platformQueue = new();
         [SerializeField] private List<GameObject> slicedItemPool;
+       
+        
 
         private Vector3 _defaultScale;
 
@@ -37,10 +40,14 @@ namespace Script
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (GameManager.Instance.gameState == GameState.Start ||
+                GameManager.Instance.gameState == GameState.Running)
             {
-                EventManager.OnClickPressed.Invoke();
-                forwardOffset += 3;
+                if (Input.GetMouseButtonDown(0))
+                {
+                    EventManager.OnClickPressed.Invoke();
+                    forwardOffset += 3;
+                }
             }
         }
 

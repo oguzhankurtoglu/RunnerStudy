@@ -9,7 +9,7 @@ namespace Script
 
         private void Update()
         {
-            if (GameManager.Instance.gameState == GameState.Running)
+            if (GameManager.Instance.gameState == GameState.Running || GameManager.Instance.gameState==GameState.BeforeFinish)
             {
                 transform.Translate(Vector3.forward * (Time.deltaTime * playerSpeed));
             }

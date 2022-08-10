@@ -8,6 +8,7 @@ namespace Script
         Start,
         Running,
         Fail,
+        BeforeFinish,
         Success
     }
 
@@ -17,7 +18,7 @@ namespace Script
 
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButtonDown(0)&& gameState==GameState.Start)
             {
                 gameState = GameState.Running;
             }

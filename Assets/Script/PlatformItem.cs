@@ -17,7 +17,7 @@ namespace Script
             EventManager.OnClickPressed.RemoveListener(Stop);
         }
 
-        private void Stop()
+        public void Stop()
         {
             speed = 0;
         }
