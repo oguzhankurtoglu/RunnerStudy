@@ -30,6 +30,7 @@ namespace Script
             if (Mathf.Abs(distance) > _platformManager.LastCube.transform.localScale.x)
             {
                 transform.AddComponent<Rigidbody>();
+                GameManager.Instance.gameState = GameState.BeforeFinish;
             }
             else
             {

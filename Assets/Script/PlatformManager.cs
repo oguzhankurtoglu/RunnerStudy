@@ -21,6 +21,8 @@ namespace Script
         public Transform defaultTransform;
         [field: SerializeField] public PlatformItem CurrentCube { get; set; }
         [field: SerializeField] public PlatformItem LastCube { get; set; }
+        public Transform finishline;
+        public bool CanSpawn => CurrentCube.transform.position.z < finishline.transform.position.z-3;
 
         #endregion
 
@@ -38,8 +40,11 @@ namespace Script
                 if (Input.GetMouseButtonDown(0))
                 {
                     CurrentCube.Stop();
-                    Spawner();
-                    forwardOffset += 3;
+                    if (CanSpawn)
+                    {
+                        Spawner();
+                        forwardOffset += 3;
+                    }
                 }
             }
         }

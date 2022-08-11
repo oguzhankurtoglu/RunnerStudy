@@ -6,12 +6,26 @@ namespace Script
     public class Character : MonoBehaviour
     {
         public float playerSpeed;
+        private Animator _animator;
+
+        private Animator Animator => _animator ? _animator : GetComponentInChildren<Animator>();
+
 
         private void Update()
         {
-            if (GameManager.Instance.gameState == GameState.Running || GameManager.Instance.gameState==GameState.BeforeFinish)
+            playerSpeed = GameManager.Instance.gameState is GameState.Running or GameState.BeforeFinish ? 2 : 0;
+            
+            Animator.SetFloat("Running", playerSpeed);
+            Animator.SetFloat("Fall", transform.position.y);
+            transform.Translate(Vector3.forward * (Time.deltaTime * playerSpeed));
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.CompareTag("Finish"))
             {
-                transform.Translate(Vector3.forward * (Time.deltaTime * playerSpeed));
+                GameManager.Instance.gameState = GameState.Success;
+                GetComponentInChildren<Animator>().SetTrigger("Dance");
             }
         }
     }
