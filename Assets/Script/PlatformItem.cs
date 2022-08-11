@@ -8,33 +8,26 @@ namespace Script
     public class PlatformItem : MonoBehaviour
     {
         public float speed;
-        public static PlatformItem CurrentCube { get; private set; }
-        public static PlatformItem LastCube { get; private set; }
+        private PlatformManager _platformManager;
 
-        private void OnEnable()
+        public void SetUp(PlatformManager platformManager)
         {
-            EventManager.OnClickPressed.AddListener(Stop);
-            if (LastCube == null)
-            {
-                LastCube = GameObject.FindGameObjectWithTag("Base").GetComponent<PlatformItem>();
-            }
-            else
-            {
-                transform.localScale = LastCube.transform.localScale;
-                CurrentCube = this;
-            }
+            _platformManager = platformManager;
         }
 
-        private void OnDisable()
-        {
-            EventManager.OnClickPressed.RemoveListener(Stop);
-        }
 
-        private void Stop()
+        private void Awake()
+        {
+            if (_platformManager == null)
+            {
+                _platformManager = FindObjectOfType<PlatformManager>();
+            }
+        }
+        public void Stop()
         {
             speed = 0;
-            float distance = transform.position.x - LastCube.transform.position.x;
-            if (Mathf.Abs(distance) > LastCube.transform.localScale.x)
+            float distance = transform.position.x - _platformManager.LastCube.transform.position.x;
+            if (Mathf.Abs(distance) > _platformManager.LastCube.transform.localScale.x)
             {
                 transform.AddComponent<Rigidbody>();
             }
@@ -42,15 +35,15 @@ namespace Script
             {
                 float direction = distance > 0 ? 1f : -1f;
                 SlicePlatform(distance, direction);
-                LastCube = this;
+                _platformManager.LastCube = this;
             }
         }
 
         private void SlicePlatform(float distance, float direction)
         {
-            float sizeX = LastCube.transform.localScale.x - Mathf.Abs(distance);
+            float sizeX = _platformManager.LastCube.transform.localScale.x - Mathf.Abs(distance);
             float fallingSideSize = transform.localScale.x - sizeX;
-            float posX = LastCube.transform.position.x + (distance / 2);
+            float posX = _platformManager.LastCube.transform.position.x + (distance / 2);
 
             transform.localScale = new Vector3(sizeX, transform.localScale.y, transform.localScale.z);
             transform.position = new Vector3(posX, transform.position.y, transform.position.z);

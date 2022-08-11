@@ -17,12 +17,19 @@ namespace Script
         [SerializeField] public List<GameObject> platformPool;
         private readonly Queue<GameObject> _platformQueue = new();
 
-        private Vector3 _defaultScale;
-        [SerializeField] private GameObject movingCubePrefab;
+        [SerializeField] private GameObject platformPrefab;
+        public Transform defaultTransform;
+        [field: SerializeField] public PlatformItem CurrentCube { get; set; }
+        [field: SerializeField] public PlatformItem LastCube { get; set; }
 
         #endregion
 
         #region UnityLifeCycle
+
+        private void Awake()
+        {
+            defaultTransform = platformPrefab.transform;
+        }
 
         private void Update()
         {
@@ -30,7 +37,9 @@ namespace Script
             {
                 if (Input.GetMouseButtonDown(0))
                 {
-                    EventManager.OnClickPressed.Invoke();
+                    CurrentCube.Stop();
+                    Spawner();
+                    forwardOffset += 3;
                 }
             }
         }
@@ -39,7 +48,15 @@ namespace Script
 
         #region Methods
 
-   
+        private void Spawner()
+        {
+            var cube = Instantiate(platformPrefab).GetComponent<PlatformItem>();
+            cube.SetUp(this);
+            cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
+            cube.transform.localScale = LastCube.transform.localScale;
+            LastCube = CurrentCube;
+            CurrentCube = cube;
+        }
 
         #endregion
     }
