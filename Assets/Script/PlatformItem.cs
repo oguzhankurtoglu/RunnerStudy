@@ -14,8 +14,6 @@ namespace Script
         {
             _platformManager = platformManager;
         }
-
-
         private void Awake()
         {
             if (_platformManager == null)
