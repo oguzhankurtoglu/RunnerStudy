@@ -34,9 +34,16 @@ namespace Script
         {
             speed = 0;
             float distance = transform.position.x - LastCube.transform.position.x;
-            float direction = distance > 0 ? 1f : -1f;
-            SlicePlatform(distance, direction);
-            LastCube = this;
+            if (Mathf.Abs(distance) > LastCube.transform.localScale.x)
+            {
+                transform.AddComponent<Rigidbody>();
+            }
+            else
+            {
+                float direction = distance > 0 ? 1f : -1f;
+                SlicePlatform(distance, direction);
+                LastCube = this;
+            }
         }
 
         private void SlicePlatform(float distance, float direction)
@@ -49,7 +56,7 @@ namespace Script
             transform.position = new Vector3(posX, transform.position.y, transform.position.z);
 
             float cubeEdge = transform.position.x + (sizeX / 2 * direction);
-            float fallingSidePosition = cubeEdge + fallingSideSize / 2 *direction;
+            float fallingSidePosition = cubeEdge + fallingSideSize / 2 * direction;
 
             SpawnFallItem(fallingSidePosition, fallingSideSize);
         }
