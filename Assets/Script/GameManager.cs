@@ -1,6 +1,7 @@
 using System;
 using Cinemachine;
 using DG.Tweening;
+using Script.State;
 using UnityEngine;
 using UnityEngine.PlayerLoop;
 
@@ -19,36 +20,26 @@ namespace Script
     {
         public GameState gameState = GameState.Start;
         public Camera mainCamera;
+        public State.State currentState;
+        public Character player;
+
+
+        public void SetState(State.State state)
+        {
+            currentState = state;
+            StartCoroutine(currentState.Start());
+        }
 
         private void Awake()
         {
+            player = FindObjectOfType<Character>();
             mainCamera = Camera.main;
+            SetState(new StateStart(this));
         }
 
-        private void Update()
+        public void LevelStart()
         {
-            if (Input.GetMouseButtonDown(0) && gameState == GameState.Start)
-            {
-                gameState = GameState.Running;
-            }
-
-            if (gameState == GameState.Success)
-            {
-                mainCamera.GetComponent<CinemachineBrain>().enabled = false;
-                mainCamera.transform.GetComponentInParent<CameraRotator>().RotateCamera();
-            }
-        }
-
-        public void ReturnDefaultCamera()
-        {
-            
             gameState = GameState.Start;
-           var cameraAngle = mainCamera.transform.parent.transform.localEulerAngles;
-            DOTween.To(() => cameraAngle.y, y => cameraAngle.y = y, 0, 1).OnUpdate(() =>
-            {
-                mainCamera.transform.parent.transform.localEulerAngles =
-                    new Vector3(cameraAngle.x, cameraAngle.y, cameraAngle.z);
-            }).OnComplete(() => { mainCamera.GetComponent<CinemachineBrain>().enabled = true; });
         }
     }
 }

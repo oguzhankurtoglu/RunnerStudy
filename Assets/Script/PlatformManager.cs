@@ -14,10 +14,7 @@ namespace Script
         #region fields
 
         [SerializeField] private int forwardOffset = 3;
-        [SerializeField] public List<GameObject> platformPool;
-        private readonly Queue<GameObject> _platformQueue = new();
         [SerializeField] private Material[] materials;
-
         [SerializeField] private GameObject platformPrefab;
         public Transform defaultTransform;
         [field: SerializeField] public PlatformItem CurrentCube { get; set; }
@@ -25,6 +22,7 @@ namespace Script
         public Transform finishline;
         public bool CanSpawn => CurrentCube.transform.position.z < finishline.transform.position.z - 3;
 
+        
         #endregion
 
         #region UnityLifeCycle
@@ -54,6 +52,7 @@ namespace Script
 
         #region Methods
 
+      
         private void Spawner()
         {
             var cube = Instantiate(platformPrefab).GetComponent<PlatformItem>();

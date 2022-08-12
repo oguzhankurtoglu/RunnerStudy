@@ -9,8 +9,8 @@ namespace Script
         public ParticleSystem confettie;
         private PlatformManager _platformManager;
         private float _playerXAxis;
-        private Animator Animator => _animator ? _animator : GetComponentInChildren<Animator>();
-
+        public Animator Animator => _animator ? _animator : GetComponentInChildren<Animator>();
+        public bool IsFalling => transform.position.y < 0;
 
         private void Awake()
         {
@@ -32,9 +32,12 @@ namespace Script
             if (other.CompareTag("Finish"))
             {
                 other.gameObject.SetActive(false);
-                GameManager.Instance.gameState = GameState.Success;
-                GetComponentInChildren<Animator>().SetTrigger("Dance");
-                confettie.Play();
+                GameManager.Instance.gameState = GameState.BeforeFinish;
+            }
+
+            if (other.CompareTag("Fail"))
+            {
+                GameManager.Instance.gameState = GameState.BeforeFinish;
             }
         }
     }

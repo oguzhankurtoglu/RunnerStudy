@@ -10,7 +10,7 @@ namespace Script
         public GameObject InGame;
         public GameObject LevelFail;
         
-        public IEnumerator<WaitForSeconds> LevelSucces()
+        public IEnumerator<WaitForSeconds> LevelSuccess()
         {
             yield return new WaitForSeconds(1f);
             InGame.SetActive(false);
@@ -23,5 +23,6 @@ namespace Script
             InGame.SetActive(false);
             LevelFail.SetActive(true);
         }
+        
     }
 }
