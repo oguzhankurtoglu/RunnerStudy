@@ -61,6 +61,7 @@ namespace Script
             cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
             cube.transform.localScale = LastCube.transform.localScale;
             cube.transform.GetComponent<Renderer>().material = materials[forwardOffset / 3];
+
             LastCube = CurrentCube;
             CurrentCube = cube;
         }

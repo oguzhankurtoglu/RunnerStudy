@@ -21,11 +21,19 @@ namespace Script
             {
                 _platformManager = FindObjectOfType<PlatformManager>();
             }
+
+            if (_platformManager.LastCube != this)
+            {
+                transform.DOLocalMoveX(
+                        -transform.position.x,
+                        2f)
+                    .SetEase(Ease.Linear).SetLoops(-1, LoopType.Yoyo);
+            }
         }
 
         public void Stop()
         {
-            speed = 0;
+            DOTween.KillAll();
             float distance = transform.position.x - _platformManager.LastCube.transform.position.x;
             if (Mathf.Abs(distance) > _platformManager.LastCube.transform.localScale.x)
             {
@@ -64,11 +72,6 @@ namespace Script
             cube.transform.position = new Vector3(fallingSidePosition, transform.position.y, transform.position.z);
             cube.transform.localScale = new Vector3(fallingSideSize, transform.localScale.y, transform.localScale.z);
             cube.AddComponent<Rigidbody>().useGravity = true;
-        }
-
-        private void Update()
-        {
-            transform.position += Vector3.right * Time.deltaTime * speed;
         }
     }
 }
