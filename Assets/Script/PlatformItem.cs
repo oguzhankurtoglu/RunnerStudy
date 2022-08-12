@@ -14,6 +14,7 @@ namespace Script
         {
             _platformManager = platformManager;
         }
+
         private void Awake()
         {
             if (_platformManager == null)
@@ -21,6 +22,7 @@ namespace Script
                 _platformManager = FindObjectOfType<PlatformManager>();
             }
         }
+
         public void Stop()
         {
             speed = 0;
@@ -33,12 +35,13 @@ namespace Script
             else
             {
                 float direction = distance > 0 ? 1f : -1f;
-                SlicePlatform(distance, direction);
+                var material = transform.GetComponent<Renderer>().material;
+                SlicePlatform(distance, direction, material);
                 _platformManager.LastCube = this;
             }
         }
 
-        private void SlicePlatform(float distance, float direction)
+        private void SlicePlatform(float distance, float direction, Material material)
         {
             float sizeX = _platformManager.LastCube.transform.localScale.x - Mathf.Abs(distance);
             float fallingSideSize = transform.localScale.x - sizeX;
@@ -50,12 +53,14 @@ namespace Script
             float cubeEdge = transform.position.x + (sizeX / 2 * direction);
             float fallingSidePosition = cubeEdge + fallingSideSize / 2 * direction;
 
-            SpawnFallItem(fallingSidePosition, fallingSideSize);
+            SpawnFallItem(fallingSidePosition, fallingSideSize, material);
         }
 
-        private void SpawnFallItem(float fallingSidePosition, float fallingSideSize)
+        private void SpawnFallItem(float fallingSidePosition, float fallingSideSize, Material material)
         {
             var cube = GameObject.CreatePrimitive(PrimitiveType.Cube);
+            Material mat = new Material(material);
+            cube.GetComponent<Renderer>().material = mat;
             cube.transform.position = new Vector3(fallingSidePosition, transform.position.y, transform.position.z);
             cube.transform.localScale = new Vector3(fallingSideSize, transform.localScale.y, transform.localScale.z);
             cube.AddComponent<Rigidbody>().useGravity = true;

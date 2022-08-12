@@ -16,13 +16,14 @@ namespace Script
         [SerializeField] private int forwardOffset = 3;
         [SerializeField] public List<GameObject> platformPool;
         private readonly Queue<GameObject> _platformQueue = new();
+        [SerializeField] private Material[] materials;
 
         [SerializeField] private GameObject platformPrefab;
         public Transform defaultTransform;
         [field: SerializeField] public PlatformItem CurrentCube { get; set; }
         [field: SerializeField] public PlatformItem LastCube { get; set; }
         public Transform finishline;
-        public bool CanSpawn => CurrentCube.transform.position.z < finishline.transform.position.z-3;
+        public bool CanSpawn => CurrentCube.transform.position.z < finishline.transform.position.z - 3;
 
         #endregion
 
@@ -59,6 +60,7 @@ namespace Script
             cube.SetUp(this);
             cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
             cube.transform.localScale = LastCube.transform.localScale;
+            cube.transform.GetComponent<Renderer>().material = materials[forwardOffset / 3];
             LastCube = CurrentCube;
             CurrentCube = cube;
         }
