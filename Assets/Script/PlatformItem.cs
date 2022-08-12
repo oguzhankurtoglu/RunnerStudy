@@ -10,7 +10,7 @@ namespace Script
     {
         public float speed;
         private PlatformManager _platformManager;
-
+        public bool correctTimeClicked;
         public void SetUp(PlatformManager platformManager)
         {
             _platformManager = platformManager;
@@ -45,9 +45,11 @@ namespace Script
             {
                 transform.AddComponent<Rigidbody>();
                 GameManager.Instance.gameState = GameState.BeforeFinish;
+                correctTimeClicked = false;
             }
             else
             {
+                correctTimeClicked = true;
                 float direction = distance > 0 ? 1f : -1f;
                 var material = transform.GetComponent<Renderer>().material;
                 SlicePlatform(distance, direction, material);

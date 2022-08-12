@@ -23,8 +23,12 @@ namespace Script
         private void Update()
         {
             playerSpeed = GameManager.Instance.gameState is GameState.Running or GameState.BeforeFinish ? 2 : 0;
-            _playerXAxis = Mathf.Lerp(_playerXAxis, platformManager.LastCube.transform.position.x, Time.deltaTime);
-            transform.position = new Vector3(_playerXAxis, transform.position.y, transform.position.z);
+            if (platformManager.LastCube.correctTimeClicked)
+            {
+                _playerXAxis = Mathf.Lerp(_playerXAxis, platformManager.LastCube.transform.position.x, Time.deltaTime);
+                transform.position = new Vector3(_playerXAxis, transform.position.y, transform.position.z);
+            }
+
             Animator.SetFloat("Running", playerSpeed);
             Animator.SetFloat("Fall", transform.position.y);
             transform.Translate(Vector3.forward * (Time.deltaTime * playerSpeed));
@@ -41,7 +45,7 @@ namespace Script
 
         public void MoveBase()
         {
-            transform.DOMoveZ(LevelManager.Instance.stages[LevelManager.Instance.stageIndex].transform.GetChild(0).position.z, 1f);
+            transform.DOMoveZ(LevelManager.Instance.CurrentBase.position.z, 1f);
             LevelManager.Instance.stageIndex++;
         }
     }

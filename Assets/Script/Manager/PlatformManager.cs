@@ -63,7 +63,7 @@ namespace Script
 
         #region Methods
 
-        private void Spawner()
+        public void Spawner()
         {
             var cube = _platformPool.Dequeue();
             cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
