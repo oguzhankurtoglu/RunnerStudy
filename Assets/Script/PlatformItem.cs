@@ -8,7 +8,6 @@ namespace Script
 {
     public class PlatformItem : MonoBehaviour
     {
-        public float speed;
         private PlatformManager _platformManager;
         public bool correctTimeClicked;
         public void SetUp(PlatformManager platformManager)
@@ -49,11 +48,23 @@ namespace Script
             }
             else
             {
-                correctTimeClicked = true;
-                float direction = distance > 0 ? 1f : -1f;
-                var material = transform.GetComponent<Renderer>().material;
-                SlicePlatform(distance, direction, material);
-                _platformManager.LastCube = this;
+                if (Mathf.Abs(distance)<_platformManager.tolerance)
+                {
+                    correctTimeClicked = true;
+                    transform.position = _platformManager.LastCube.transform.position+Vector3.forward*3;
+                    _platformManager.LastCube = this;
+                    FeedBackManager.Instance.PlaySound(Mathf.Abs(distance)<_platformManager.tolerance);
+                }
+                else
+                {
+                    correctTimeClicked = true;
+                    float direction = distance > 0 ? 1f : -1f;
+                    var material = transform.GetComponent<Renderer>().material;
+                    SlicePlatform(distance, direction, material);
+                    _platformManager.LastCube = this;
+                    FeedBackManager.Instance.PlaySound(Mathf.Abs(distance)<_platformManager.tolerance);
+                }
+                
             }
         }
 

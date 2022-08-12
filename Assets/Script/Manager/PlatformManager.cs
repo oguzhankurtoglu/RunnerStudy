@@ -18,7 +18,8 @@ namespace Script
         [SerializeField] public Transform finishLine;
         [SerializeField] public Transform defaultTransform;
         [SerializeField] private GameObject platformPrefab;
-
+        [SerializeField] public float  tolerance;
+        
 
         [SerializeField] private Material[] materials;
         [SerializeField] private List<GameObject> platformList;
