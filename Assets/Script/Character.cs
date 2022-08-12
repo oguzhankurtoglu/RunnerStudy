@@ -1,3 +1,6 @@
+using Cinemachine;
+using DG.Tweening;
+using Script.Manager;
 using UnityEngine;
 
 namespace Script
@@ -34,6 +37,12 @@ namespace Script
                 other.gameObject.SetActive(false);
                 GameManager.Instance.gameState = GameState.BeforeFinish;
             }
+        }
+
+        public void MoveBase()
+        {
+            transform.DOMoveZ(LevelManager.Instance.stages[LevelManager.Instance.stageIndex].transform.GetChild(0).position.z, 1f);
+            LevelManager.Instance.stageIndex++;
         }
     }
 }

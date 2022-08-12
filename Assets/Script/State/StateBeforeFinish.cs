@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Script.Manager;
 using UnityEngine;
 
 namespace Script.State
@@ -11,7 +12,7 @@ namespace Script.State
 
         public override IEnumerator Start()
         {
-            if (GameManager.player.transform.position.z > 15)
+            if (GameManager.player.transform.position.z >= LevelManager.Instance.FinisPosition)
             {
                 GameManager.gameState = GameState.Success;
                 GameManager.SetState(new StateSuccess(GameManager));

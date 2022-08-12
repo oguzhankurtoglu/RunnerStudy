@@ -1,5 +1,6 @@
 ﻿using System;
 using DG.Tweening;
+using Script.Manager;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -21,7 +22,12 @@ namespace Script
             {
                 _platformManager = FindObjectOfType<PlatformManager>();
             }
+            Move();
+            
+        }
 
+        public void Move()
+        {
             if (_platformManager.LastCube != this)
             {
                 transform.DOLocalMoveX(

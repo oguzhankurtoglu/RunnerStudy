@@ -1,11 +1,7 @@
-using System;
-using Cinemachine;
-using DG.Tweening;
 using Script.State;
 using UnityEngine;
-using UnityEngine.PlayerLoop;
 
-namespace Script
+namespace Script.Manager
 {
     public enum GameState
     {
@@ -18,17 +14,17 @@ namespace Script
 
     public class GameManager : MonoSingleton<GameManager>
     {
+        #region fields
+
         public GameState gameState = GameState.Start;
         public Camera mainCamera;
         public Character player;
         private State.State _currentState;
 
+        #endregion
 
-        public void SetState(State.State state)
-        {
-            _currentState = state;
-            StartCoroutine(_currentState.Start());
-        }
+
+        #region UnityLyfeCycle
 
         private void Awake()
         {
@@ -37,9 +33,22 @@ namespace Script
             SetState(new StateStart(this));
         }
 
+        #endregion
+
+
+        #region Methods
+
         public void LevelStart()
         {
             gameState = GameState.Start;
         }
+
+        public void SetState(State.State state)
+        {
+            _currentState = state;
+            StartCoroutine(_currentState.Start());
+        }
+
+        #endregion
     }
 }

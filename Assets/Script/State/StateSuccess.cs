@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Cinemachine;
+using Script.Manager;
 using UnityEngine;
 
 namespace Script.State

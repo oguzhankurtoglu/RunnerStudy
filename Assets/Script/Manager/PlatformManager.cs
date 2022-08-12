@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
+using Script.Manager;
 using UnityEngine;
 using UnityEngine.Events;
 using static UnityEngine.GameObject;
@@ -14,15 +15,20 @@ namespace Script
         #region fields
 
         [SerializeField] private int forwardOffset = 3;
-        [SerializeField] private Material[] materials;
+        [SerializeField] public Transform finishLine;
+        [SerializeField] public Transform defaultTransform;
         [SerializeField] private GameObject platformPrefab;
-        public Transform defaultTransform;
-        [field: SerializeField] public PlatformItem CurrentCube { get; set; }
-        [field: SerializeField] public PlatformItem LastCube { get; set; }
-        public Transform finishline;
-        public bool CanSpawn => CurrentCube.transform.position.z < finishline.transform.position.z - 3;
 
         
+        [SerializeField] private Material[] materials;
+        [SerializeField] private List<GameObject> platformList;
+        [SerializeField] private readonly Queue<PlatformItem> _platformPool = new();
+        private readonly WaitForSeconds _returnPoolDuration = new(10f);
+
+        [field: SerializeField] public PlatformItem CurrentCube { get; set; }
+        [field: SerializeField] public PlatformItem LastCube { get; set; }
+        private bool CanSpawn => CurrentCube.transform.position.z < finishLine.transform.position.z - 3;
+
         #endregion
 
         #region UnityLifeCycle
@@ -30,11 +36,15 @@ namespace Script
         private void Awake()
         {
             defaultTransform = platformPrefab.transform;
+            foreach (var platform in platformList)
+            {
+                _platformPool.Enqueue(platform.GetComponent<PlatformItem>());
+            }
         }
 
         private void Update()
         {
-            if (GameManager.Instance.gameState == GameState.Running)
+            if (GameManager.Instance.gameState == GameState.Running || GameManager.Instance.gameState==GameState.Start)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -52,10 +62,11 @@ namespace Script
 
         #region Methods
 
-      
         private void Spawner()
         {
-            var cube = Instantiate(platformPrefab).GetComponent<PlatformItem>();
+            var cube = _platformPool.Dequeue();
+            cube.gameObject.SetActive(true);
+            cube.Move();
             cube.SetUp(this);
             cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
             cube.transform.localScale = LastCube.transform.localScale;
@@ -63,6 +74,15 @@ namespace Script
 
             LastCube = CurrentCube;
             CurrentCube = cube;
+            StartCoroutine(ReturnPool(cube));
+        }
+
+
+        private IEnumerator ReturnPool(PlatformItem platformItem)
+        {
+            yield return _returnPoolDuration;
+            platformItem.gameObject.SetActive(false);
+            _platformPool.Enqueue(platformItem);
         }
 
         #endregion

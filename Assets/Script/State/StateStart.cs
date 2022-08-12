@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using Cinemachine;
 using DG.Tweening;
+using Script.Manager;
 using UnityEngine;
 
 namespace Script.State
@@ -13,6 +14,7 @@ namespace Script.State
 
         public override IEnumerator Start()
         {
+            GameManager.player.MoveBase();
             ReturnDefaultCamera();
             UIManager.Instance.LevelCompleted.SetActive(false);
             yield return new WaitUntil(() => Input.GetMouseButtonDown(0));

@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using Script.Manager;
 
 namespace Script.State
 {
