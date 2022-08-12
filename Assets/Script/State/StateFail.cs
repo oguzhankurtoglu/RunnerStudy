@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using Script.Manager;
+using UnityEngine;
 
 namespace Script.State
 {
@@ -13,7 +14,7 @@ namespace Script.State
         {
             GameManager.gameState = GameState.Fail;
             GameManager.StartCoroutine(UIManager.Instance.LevelFailed());
-            yield return GameManager.gameState == GameState.Start;
+            yield return new WaitUntil(() => GameManager.gameState == GameState.Start);
             GameManager.SetState(new StateStart(GameManager));
         }
     }

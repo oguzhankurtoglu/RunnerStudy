@@ -14,6 +14,9 @@ namespace Script.State
 
         public override IEnumerator Start()
         {
+            GameManager.player.platformManager.LastCube =
+                LevelManager.Instance.CurrentBase.GetComponent<PlatformItem>();
+            GameManager.player.platformManager.forwardOffset =(int) LevelManager.Instance.FinisPosition + 3;
             GameManager.player.MoveBase();
             ReturnDefaultCamera();
             UIManager.Instance.LevelCompleted.SetActive(false);

@@ -14,12 +14,12 @@ namespace Script
     {
         #region fields
 
-        [SerializeField] private int forwardOffset = 3;
+        [SerializeField] public int forwardOffset = 3;
         [SerializeField] public Transform finishLine;
         [SerializeField] public Transform defaultTransform;
         [SerializeField] private GameObject platformPrefab;
 
-        
+
         [SerializeField] private Material[] materials;
         [SerializeField] private List<GameObject> platformList;
         [SerializeField] private readonly Queue<PlatformItem> _platformPool = new();
@@ -27,7 +27,7 @@ namespace Script
 
         [field: SerializeField] public PlatformItem CurrentCube { get; set; }
         [field: SerializeField] public PlatformItem LastCube { get; set; }
-        private bool CanSpawn => CurrentCube.transform.position.z < finishLine.transform.position.z - 3;
+        private bool CanSpawn => CurrentCube.transform.position.z < LevelManager.Instance.FinisPosition - 3;
 
         #endregion
 
@@ -44,7 +44,8 @@ namespace Script
 
         private void Update()
         {
-            if (GameManager.Instance.gameState == GameState.Running || GameManager.Instance.gameState==GameState.Start)
+            if (GameManager.Instance.gameState == GameState.Running ||
+                GameManager.Instance.gameState == GameState.Start)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -65,12 +66,12 @@ namespace Script
         private void Spawner()
         {
             var cube = _platformPool.Dequeue();
-            cube.gameObject.SetActive(true);
-            cube.Move();
-            cube.SetUp(this);
             cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
             cube.transform.localScale = LastCube.transform.localScale;
             cube.transform.GetComponent<Renderer>().material = materials[forwardOffset / 3];
+            cube.gameObject.SetActive(true);
+            cube.Move();
+            cube.SetUp(this);
 
             LastCube = CurrentCube;
             CurrentCube = cube;

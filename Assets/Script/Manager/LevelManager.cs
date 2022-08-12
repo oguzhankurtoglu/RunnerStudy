@@ -8,6 +8,7 @@ namespace Script
         [SerializeField] public GameObject[] stages;
         public int stageIndex;
         public float FinisPosition => stages[stageIndex].transform.position.z;
+        public Transform CurrentBase => stages[stageIndex].transform.GetChild(0).transform;
 
         public void RestartLevel()
         {
