@@ -34,11 +34,6 @@ namespace Script
                 other.gameObject.SetActive(false);
                 GameManager.Instance.gameState = GameState.BeforeFinish;
             }
-
-            if (other.CompareTag("Fail"))
-            {
-                GameManager.Instance.gameState = GameState.BeforeFinish;
-            }
         }
     }
 }

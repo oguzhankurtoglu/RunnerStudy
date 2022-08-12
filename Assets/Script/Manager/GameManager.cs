@@ -20,14 +20,14 @@ namespace Script
     {
         public GameState gameState = GameState.Start;
         public Camera mainCamera;
-        public State.State currentState;
         public Character player;
+        private State.State _currentState;
 
 
         public void SetState(State.State state)
         {
-            currentState = state;
-            StartCoroutine(currentState.Start());
+            _currentState = state;
+            StartCoroutine(_currentState.Start());
         }
 
         private void Awake()

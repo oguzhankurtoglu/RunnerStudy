@@ -1617,7 +1617,7 @@ GameObject:
   - component: {fileID: 346410774}
   m_Layer: 0
   m_Name: Cube
-  m_TagString: Fail
+  m_TagString: Finish
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -3951,7 +3951,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 2110475949}
         m_TargetAssemblyTypeName: Script.GameManager, Assembly-CSharp
-        m_MethodName: ReturnDefaultCamera
+        m_MethodName: LevelStart
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
