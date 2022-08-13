@@ -10,6 +10,8 @@ namespace Script
     {
         private PlatformManager _platformManager;
         public bool correctTimeClicked;
+        public GameObject visualEffect;
+
         public void SetUp(PlatformManager platformManager)
         {
             _platformManager = platformManager;
@@ -21,8 +23,8 @@ namespace Script
             {
                 _platformManager = FindObjectOfType<PlatformManager>();
             }
+
             Move();
-            
         }
 
         public void Move()
@@ -38,6 +40,10 @@ namespace Script
 
         public void Stop()
         {
+            if (GameManager.Instance.gameState==GameState.BeforeFinish)
+            {
+                return;
+            }
             DOTween.KillAll();
             float distance = transform.position.x - _platformManager.LastCube.transform.position.x;
             if (Mathf.Abs(distance) > _platformManager.LastCube.transform.localScale.x)
@@ -48,12 +54,15 @@ namespace Script
             }
             else
             {
-                if (Mathf.Abs(distance)<_platformManager.tolerance)
+                if (Mathf.Abs(distance) < _platformManager.tolerance)
                 {
+                    _platformManager.LastCube.visualEffect.SetActive(false);
+                    _platformManager.LastCube.visualEffect.SetActive(true);
+                    visualEffect.SetActive(true);
                     correctTimeClicked = true;
-                    transform.position = _platformManager.LastCube.transform.position+Vector3.forward*3;
+                    transform.position = _platformManager.LastCube.transform.position + Vector3.forward * 3;
                     _platformManager.LastCube = this;
-                    FeedBackManager.Instance.PlaySound(Mathf.Abs(distance)<_platformManager.tolerance);
+                    FeedBackManager.Instance.PlaySound(Mathf.Abs(distance) < _platformManager.tolerance);
                 }
                 else
                 {
@@ -62,9 +71,8 @@ namespace Script
                     var material = transform.GetComponent<Renderer>().material;
                     SlicePlatform(distance, direction, material);
                     _platformManager.LastCube = this;
-                    FeedBackManager.Instance.PlaySound(Mathf.Abs(distance)<_platformManager.tolerance);
+                    FeedBackManager.Instance.PlaySound(Mathf.Abs(distance) < _platformManager.tolerance);
                 }
-                
             }
         }
 
