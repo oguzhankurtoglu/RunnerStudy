@@ -36,8 +36,6 @@ namespace Script
         {
             DOTween.KillAll();
             float distance = transform.position.x - _platformManager.LastCube.transform.position.x;
-            Debug.Log("for slice debug: " + _platformManager.LastCube.name);
-            Debug.Log("distance: " + distance);
             if (Mathf.Abs(distance) > _platformManager.LastCube.transform.localScale.x)
             {
                 transform.AddComponent<Rigidbody>();

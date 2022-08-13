@@ -12,16 +12,15 @@ namespace Script.State
 
         public override IEnumerator Start()
         {
-            GameManager.player.platformManager.LastCube =
+            GameManager.platformManager.LastCube =
                 LevelManager.Instance.CurrentBase.GetComponent<PlatformItem>();
 
-            GameManager.player.platformManager.forwardOffset =
-                (int) GameManager.player.platformManager.LastCube.transform.position.z + 3;
-            Debug.Log(GameManager.player.platformManager.forwardOffset);
+            GameManager.platformManager.forwardOffset =
+                (int) GameManager.platformManager.LastCube.transform.position.z + 3;
             GameManager.player.MoveBase();
             yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
 
-            GameManager.player.platformManager.Starter();
+            GameManager.platformManager.Starter();
             GameManager.SetState(new StateRunning(GameManager));
         }
     }

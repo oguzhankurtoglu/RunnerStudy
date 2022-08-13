@@ -12,7 +12,7 @@ namespace Script
         #region fields
 
         [Inject] private GameManager _gameManager;
-        
+
         [SerializeField] public int forwardOffset = 3;
         [SerializeField] public Transform finishLine;
         [SerializeField] public Transform defaultTransform;
@@ -71,9 +71,6 @@ namespace Script
             cube.transform.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
             cube.gameObject.SetActive(true);
             cube.Move();
-
-            Debug.Log(cube.name + " " + LastCube.name);
-
             LastCube = CurrentCube;
             CurrentCube = cube;
             StartCoroutine(ReturnPool(cube));
@@ -81,15 +78,11 @@ namespace Script
 
         public void Starter()
         {
-            Debug.Log("starter");
             var cube = _platformPool.Dequeue();
             cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
             cube.transform.localScale = defaultTransform.transform.localScale;
             cube.gameObject.SetActive(true);
             cube.Move();
-            
-            Debug.Log("current: "+cube.name + " " +"Last Cube: " + LastCube.name);
-
             CurrentCube = cube;
             forwardOffset += 3;
             StartCoroutine(ReturnPool(cube));

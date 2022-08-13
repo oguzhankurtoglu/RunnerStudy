@@ -20,6 +20,8 @@ namespace Script.Manager
     {
         #region fields
 
+        [Inject] public PlatformManager platformManager;
+        [Inject] public CharacterAnimator characterAnimator;
         public GameState gameState = GameState.Start;
         public Camera mainCamera;
         public Character player;
@@ -44,6 +46,7 @@ namespace Script.Manager
 
         public void LevelStart()
         {
+            characterAnimator.SetTrigger("Idle");
             UIManager.Instance.LevelCompleted.SetActive(false);
             var cameraAngle = mainCamera.transform.parent.transform.localEulerAngles;
             DOTween.To(() => cameraAngle.y, y => cameraAngle.y = y, -6.186f, 1).OnUpdate(() =>

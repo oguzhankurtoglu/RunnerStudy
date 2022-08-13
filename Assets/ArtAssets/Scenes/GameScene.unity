@@ -3057,6 +3057,7 @@ GameObject:
   - component: {fileID: 604125043}
   - component: {fileID: 604125045}
   - component: {fileID: 604125044}
+  - component: {fileID: 604125046}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -3093,9 +3094,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffef4a3fd74514a43b3843a4d23f0acb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  platformManager: {fileID: 0}
+  characterAnimator: {fileID: 0}
   playerSpeed: 2
-  confettie: {fileID: 1451414557}
+  confetti: {fileID: 1451414557}
 --- !u!54 &604125044
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3126,6 +3127,18 @@ CapsuleCollider:
   m_Height: 1.231111
   m_Direction: 1
   m_Center: {x: 0, y: 0.60014296, z: 0.011182785}
+--- !u!114 &604125046
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 604125041}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0695f6510824126952e9446f0490849, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &604831775
 GameObject:
   m_ObjectHideFlags: 0
@@ -3628,7 +3641,7 @@ MonoBehaviour:
     ModeOverride: 0
     LensShift: {x: 0, y: 0}
     GateFit: 2
-    m_SensorSize: {x: 0.46182266, y: 1}
+    m_SensorSize: {x: 1.7096273, y: 1}
   m_Transitions:
     m_BlendHint: 0
     m_InheritPosition: 0
@@ -6379,6 +6392,7 @@ MonoBehaviour:
   platformManager: {fileID: 2115065040}
   gameManager: {fileID: 2110475949}
   feedBackManager: {fileID: 28243828}
+  characterAnimator: {fileID: 604125046}
 --- !u!4 &1152444606
 Transform:
   m_ObjectHideFlags: 0
@@ -12391,6 +12405,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ccc9e4e0748d4e545b1eb61724a36d5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  platformManager: {fileID: 0}
+  characterAnimator: {fileID: 0}
   gameState: 0
   mainCamera: {fileID: 0}
   player: {fileID: 0}

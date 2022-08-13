@@ -13,8 +13,8 @@ namespace Script.State
 
         public override IEnumerator Start()
         {
-            GameManager.player.Animator.SetTrigger("Dance");
-            GameManager.player.confettie.Play();
+            GameManager.player.characterAnimator.SetTrigger("Dance");
+            GameManager.player.confetti.Play();
             GameManager.mainCamera.GetComponent<CinemachineBrain>().enabled = false;
             GameManager.mainCamera.transform.GetComponentInParent<CameraRotator>().RotateCamera();
             UIManager.Instance.StartCoroutine(UIManager.Instance.LevelSuccess());
