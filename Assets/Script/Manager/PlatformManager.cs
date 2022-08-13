@@ -71,7 +71,6 @@ namespace Script
             cube.transform.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
             cube.gameObject.SetActive(true);
             cube.Move();
-            cube.SetUp(this);
 
             Debug.Log(cube.name + " " + LastCube.name);
 
