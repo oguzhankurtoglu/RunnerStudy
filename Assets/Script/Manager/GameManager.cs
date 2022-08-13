@@ -46,18 +46,25 @@ namespace Script.Manager
 
         public void LevelStart()
         {
-            characterAnimator.SetTrigger("Idle");
-            UIManager.Instance.LevelCompleted.SetActive(false);
-            var cameraAngle = mainCamera.transform.parent.transform.localEulerAngles;
-            DOTween.To(() => cameraAngle.y, y => cameraAngle.y = y, -6.186f, 1).OnUpdate(() =>
+            if (LevelManager.Instance.IsLevelFinished)
             {
-                mainCamera.transform.parent.transform.localEulerAngles =
-                    new Vector3(cameraAngle.x, cameraAngle.y, cameraAngle.z);
-            }).OnComplete(() =>
+                LevelManager.Instance.RestartLevel();
+            }
+            else
             {
-                gameState = GameState.Start;
-                mainCamera.GetComponent<CinemachineBrain>().enabled = true;
-            });
+                characterAnimator.SetTrigger("Idle");
+                UIManager.Instance.LevelCompleted.SetActive(false);
+                var cameraAngle = mainCamera.transform.parent.transform.localEulerAngles;
+                DOTween.To(() => cameraAngle.y, y => cameraAngle.y = y, -6.186f, 1).OnUpdate(() =>
+                {
+                    mainCamera.transform.parent.transform.localEulerAngles =
+                        new Vector3(cameraAngle.x, cameraAngle.y, cameraAngle.z);
+                }).OnComplete(() =>
+                {
+                    gameState = GameState.Start;
+                    mainCamera.GetComponent<CinemachineBrain>().enabled = true;
+                });
+            }
         }
 
 
