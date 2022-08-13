@@ -3,12 +3,13 @@ using DG.Tweening;
 using Script.Manager;
 using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 namespace Script
 {
     public class PlatformItem : MonoBehaviour
     {
-        private PlatformManager _platformManager;
+        [Inject] private PlatformManager _platformManager;
         public bool correctTimeClicked;
         public GameObject visualEffect;
 
@@ -19,10 +20,10 @@ namespace Script
 
         private void Awake()
         {
-            if (_platformManager == null)
-            {
-                _platformManager = FindObjectOfType<PlatformManager>();
-            }
+            //if (_platformManager == null)
+            //{
+            //    _platformManager = FindObjectOfType<PlatformManager>();
+            //}
 
             Move();
         }

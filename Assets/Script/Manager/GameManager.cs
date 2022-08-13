@@ -3,6 +3,7 @@ using DG.Tweening;
 using Script.State;
 using Unity.VisualScripting;
 using UnityEngine;
+using Zenject;
 
 namespace Script.Manager
 {
@@ -24,6 +25,8 @@ namespace Script.Manager
         public Character player;
         private State.State _currentState;
 
+        [Inject] private UIManager UIManager;
+
         #endregion
 
 
@@ -43,7 +46,7 @@ namespace Script.Manager
 
         public void LevelStart()
         {
-            UIManager.Instance.LevelCompleted.SetActive(false);
+            UIManager.LevelCompleted.SetActive(false);
             var cameraAngle = mainCamera.transform.parent.transform.localEulerAngles;
             DOTween.To(() => cameraAngle.y, y => cameraAngle.y = y, -6.186f, 1).OnUpdate(() =>
             {

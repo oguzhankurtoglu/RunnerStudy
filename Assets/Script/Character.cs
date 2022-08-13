@@ -2,6 +2,7 @@ using Cinemachine;
 using DG.Tweening;
 using Script.Manager;
 using UnityEngine;
+using Zenject;
 
 namespace Script
 {
@@ -10,15 +11,10 @@ namespace Script
         public float playerSpeed;
         private Animator _animator;
         public ParticleSystem confettie;
-        public PlatformManager platformManager;
+        [Inject] public PlatformManager platformManager;
         private float _playerXAxis;
         public Animator Animator => _animator ? _animator : GetComponentInChildren<Animator>();
         public bool IsFalling => transform.position.y < 0;
-
-        private void Awake()
-        {
-            platformManager = FindObjectOfType<PlatformManager>();
-        }
 
         private void Update()
         {
