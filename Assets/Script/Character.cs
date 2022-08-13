@@ -45,8 +45,8 @@ namespace Script
 
         public void MoveBase()
         {
-            transform.DOMoveZ(LevelManager.Instance.CurrentBase.position.z, 1f);
-            LevelManager.Instance.stageIndex++;
+          // transform.DOMoveZ(LevelManager.Instance.CurrentBase.position.z, 1f);
+          LevelManager.Instance.stageIndex++;
         }
     }
 }

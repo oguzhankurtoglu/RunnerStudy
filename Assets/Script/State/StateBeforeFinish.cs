@@ -12,7 +12,7 @@ namespace Script.State
 
         public override IEnumerator Start()
         {
-            if (GameManager.player.transform.position.z >= LevelManager.Instance.FinisPosition)
+            if (GameManager.player.transform.position.z >= LevelManager.Instance.FinisPosition-3)
             {
                 GameManager.gameState = GameState.Success;
                 GameManager.SetState(new StateSuccess(GameManager));

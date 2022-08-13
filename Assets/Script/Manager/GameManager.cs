@@ -1,6 +1,7 @@
 using Cinemachine;
 using DG.Tweening;
 using Script.State;
+using Unity.VisualScripting;
 using UnityEngine;
 
 namespace Script.Manager

@@ -11,7 +11,6 @@ namespace Script.State
         {
             GameManager = gameManager;
         }
-
         public abstract IEnumerator Start();
     }
 }

@@ -40,10 +40,6 @@ namespace Script
 
         public void Stop()
         {
-            if (GameManager.Instance.gameState==GameState.BeforeFinish)
-            {
-                return;
-            }
             DOTween.KillAll();
             float distance = transform.position.x - _platformManager.LastCube.transform.position.x;
             if (Mathf.Abs(distance) > _platformManager.LastCube.transform.localScale.x)
@@ -51,18 +47,24 @@ namespace Script
                 transform.AddComponent<Rigidbody>();
                 GameManager.Instance.gameState = GameState.BeforeFinish;
                 correctTimeClicked = false;
+                _platformManager.LastCube = this;
             }
             else
             {
                 if (Mathf.Abs(distance) < _platformManager.tolerance)
                 {
-                    _platformManager.LastCube.visualEffect.SetActive(false);
-                    _platformManager.LastCube.visualEffect.SetActive(true);
-                    visualEffect.SetActive(true);
-                    correctTimeClicked = true;
-                    transform.position = _platformManager.LastCube.transform.position + Vector3.forward * 3;
-                    _platformManager.LastCube = this;
-                    FeedBackManager.Instance.PlaySound(Mathf.Abs(distance) < _platformManager.tolerance);
+                    transform.position = new Vector3(_platformManager.LastCube.transform.position.x,
+                        transform.position.y, transform.position.z);
+                    if (_platformManager.CanSpawn)
+                    {
+                        _platformManager.LastCube.visualEffect.SetActive(false);
+                        _platformManager.LastCube.visualEffect.SetActive(true);
+                        visualEffect.SetActive(true);
+                        correctTimeClicked = true;
+
+                        _platformManager.LastCube = this;
+                        FeedBackManager.Instance.PlaySound(Mathf.Abs(distance) < _platformManager.tolerance);
+                    }
                 }
                 else
                 {

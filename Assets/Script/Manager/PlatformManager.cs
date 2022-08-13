@@ -14,8 +14,8 @@ namespace Script
         [SerializeField] public Transform finishLine;
         [SerializeField] public Transform defaultTransform;
         [SerializeField] private GameObject platformPrefab;
-        [SerializeField] public float  tolerance;
-        
+        [SerializeField] public float tolerance;
+
 
         [SerializeField] private Material[] materials;
         [SerializeField] private List<GameObject> platformList;
@@ -24,7 +24,8 @@ namespace Script
 
         [field: SerializeField] public PlatformItem CurrentCube { get; set; }
         [field: SerializeField] public PlatformItem LastCube { get; set; }
-        private bool CanSpawn => CurrentCube.transform.position.z < LevelManager.Instance.FinisPosition - 3;
+        public bool CanSpawn => CurrentCube.transform.position.z < LevelManager.Instance.FinisPosition - 3;
+        private bool _isFinish;
 
         #endregion
 
@@ -41,8 +42,7 @@ namespace Script
 
         private void Update()
         {
-            if (GameManager.Instance.gameState == GameState.Running ||
-                GameManager.Instance.gameState == GameState.Start)
+            if (GameManager.Instance.gameState is GameState.Running)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -65,16 +65,31 @@ namespace Script
             var cube = _platformPool.Dequeue();
             cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
             cube.transform.localScale = LastCube.transform.localScale;
-            cube.transform.GetComponent<Renderer>().material = materials[Random.Range(0,materials.Length)];
+            cube.transform.GetComponent<Renderer>().material = materials[Random.Range(0, materials.Length)];
             cube.gameObject.SetActive(true);
             cube.Move();
             cube.SetUp(this);
+
+            Debug.Log(cube.name + " " + LastCube.name);
 
             LastCube = CurrentCube;
             CurrentCube = cube;
             StartCoroutine(ReturnPool(cube));
         }
 
+        public void Starter()
+        {
+            var cube = _platformPool.Dequeue();
+            cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
+            cube.transform.localScale = defaultTransform.transform.localScale;
+            cube.gameObject.SetActive(true);
+            cube.Move();
+            cube.SetUp(this);
+          
+            CurrentCube = cube;
+            forwardOffset += 3;
+            StartCoroutine(ReturnPool(cube));
+        }
 
         private IEnumerator ReturnPool(PlatformItem platformItem)
         {
