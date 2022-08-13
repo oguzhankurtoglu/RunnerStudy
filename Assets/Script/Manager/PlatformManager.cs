@@ -87,6 +87,8 @@ namespace Script
             cube.transform.localScale = defaultTransform.transform.localScale;
             cube.gameObject.SetActive(true);
             cube.Move();
+            
+            Debug.Log("current: "+cube.name + " " +"Last Cube: " + LastCube.name);
 
             CurrentCube = cube;
             forwardOffset += 3;

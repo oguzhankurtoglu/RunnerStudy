@@ -1,5 +1,4 @@
-﻿using System;
-using DG.Tweening;
+﻿using DG.Tweening;
 using Script.Manager;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -11,6 +10,7 @@ namespace Script
     {
         [Inject] private PlatformManager _platformManager;
         [Inject] private GameManager _gameManager;
+        [Inject] private FeedBackManager _feedBackManager;
         
         public bool correctTimeClicked;
         public GameObject visualEffect;
@@ -36,6 +36,8 @@ namespace Script
         {
             DOTween.KillAll();
             float distance = transform.position.x - _platformManager.LastCube.transform.position.x;
+            Debug.Log("for slice debug: " + _platformManager.LastCube.name);
+            Debug.Log("distance: " + distance);
             if (Mathf.Abs(distance) > _platformManager.LastCube.transform.localScale.x)
             {
                 transform.AddComponent<Rigidbody>();
@@ -57,17 +59,18 @@ namespace Script
                         correctTimeClicked = true;
 
                         _platformManager.LastCube = this;
-                        FeedBackManager.Instance.PlaySound(Mathf.Abs(distance) < _platformManager.tolerance);
+                        _feedBackManager.PlaySound(Mathf.Abs(distance) < _platformManager.tolerance);
                     }
                 }
                 else
                 {
+                  
                     correctTimeClicked = true;
                     float direction = distance > 0 ? 1f : -1f;
                     var material = transform.GetComponent<Renderer>().material;
                     SlicePlatform(distance, direction, material);
                     _platformManager.LastCube = this;
-                    FeedBackManager.Instance.PlaySound(Mathf.Abs(distance) < _platformManager.tolerance);
+                    _feedBackManager.PlaySound(Mathf.Abs(distance) < _platformManager.tolerance);
                 }
             }
         }

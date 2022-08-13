@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Script.Manager
 {
-    public class FeedBackManager : MonoSingleton<FeedBackManager>
+    public class FeedBackManager : MonoBehaviour
     {
         public AudioSource audio;
         public float increaseValue;
