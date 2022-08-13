@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using Script.Manager;
 using UnityEngine;
+using Zenject;
 
 
 namespace Script
@@ -10,6 +11,8 @@ namespace Script
     {
         #region fields
 
+        [Inject] private GameManager _gameManager;
+        
         [SerializeField] public int forwardOffset = 3;
         [SerializeField] public Transform finishLine;
         [SerializeField] public Transform defaultTransform;
@@ -42,7 +45,7 @@ namespace Script
 
         private void Update()
         {
-            if (GameManager.Instance.gameState is GameState.Running)
+            if (_gameManager.gameState is GameState.Running)
             {
                 if (Input.GetMouseButtonDown(0))
                 {
@@ -79,13 +82,13 @@ namespace Script
 
         public void Starter()
         {
+            Debug.Log("starter");
             var cube = _platformPool.Dequeue();
             cube.transform.position = defaultTransform.transform.position + Vector3.forward * forwardOffset;
             cube.transform.localScale = defaultTransform.transform.localScale;
             cube.gameObject.SetActive(true);
             cube.Move();
-            cube.SetUp(this);
-          
+
             CurrentCube = cube;
             forwardOffset += 3;
             StartCoroutine(ReturnPool(cube));

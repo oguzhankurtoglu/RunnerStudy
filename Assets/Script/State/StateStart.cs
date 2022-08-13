@@ -10,8 +10,6 @@ namespace Script.State
         {
         }
 
-        private bool _isSecond = false;
-
         public override IEnumerator Start()
         {
             GameManager.player.platformManager.LastCube =
@@ -24,8 +22,6 @@ namespace Script.State
             yield return new WaitUntil(() => Input.GetMouseButtonDown(0));
 
             GameManager.player.platformManager.Starter();
-
-
             GameManager.SetState(new StateRunning(GameManager));
         }
     }

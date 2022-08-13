@@ -8,17 +8,20 @@ namespace Script
 {
     public class Character : MonoBehaviour
     {
+        [Inject] private GameManager _gameManager;
+        [Inject] public PlatformManager platformManager;
+        
         public float playerSpeed;
         private Animator _animator;
         public ParticleSystem confettie;
-        [Inject] public PlatformManager platformManager;
+        
         private float _playerXAxis;
         public Animator Animator => _animator ? _animator : GetComponentInChildren<Animator>();
         public bool IsFalling => transform.position.y < 0;
 
         private void Update()
         {
-            playerSpeed = GameManager.Instance.gameState is GameState.Running or GameState.BeforeFinish ? 2 : 0;
+            playerSpeed = _gameManager.gameState is GameState.Running or GameState.BeforeFinish ? 2 : 0;
             if (platformManager.LastCube.correctTimeClicked)
             {
                 _playerXAxis = Mathf.Lerp(_playerXAxis, platformManager.LastCube.transform.position.x, Time.deltaTime);
@@ -35,7 +38,7 @@ namespace Script
             if (other.CompareTag("Finish"))
             {
                 other.gameObject.SetActive(false);
-                GameManager.Instance.gameState = GameState.BeforeFinish;
+                _gameManager.gameState = GameState.BeforeFinish;
             }
         }
 

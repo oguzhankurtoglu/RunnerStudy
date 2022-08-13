@@ -10,21 +10,14 @@ namespace Script
     public class PlatformItem : MonoBehaviour
     {
         [Inject] private PlatformManager _platformManager;
+        [Inject] private GameManager _gameManager;
+        
         public bool correctTimeClicked;
         public GameObject visualEffect;
-
-        public void SetUp(PlatformManager platformManager)
-        {
-            _platformManager = platformManager;
-        }
+        
 
         private void Awake()
         {
-            //if (_platformManager == null)
-            //{
-            //    _platformManager = FindObjectOfType<PlatformManager>();
-            //}
-
             Move();
         }
 
@@ -46,7 +39,7 @@ namespace Script
             if (Mathf.Abs(distance) > _platformManager.LastCube.transform.localScale.x)
             {
                 transform.AddComponent<Rigidbody>();
-                GameManager.Instance.gameState = GameState.BeforeFinish;
+                _gameManager.gameState = GameState.BeforeFinish;
                 correctTimeClicked = false;
                 _platformManager.LastCube = this;
             }

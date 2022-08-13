@@ -16,7 +16,7 @@ namespace Script.Manager
         Success
     }
 
-    public class GameManager : MonoSingleton<GameManager>
+    public class GameManager : MonoBehaviour
     {
         #region fields
 
@@ -24,8 +24,6 @@ namespace Script.Manager
         public Camera mainCamera;
         public Character player;
         private State.State _currentState;
-
-        [Inject] private UIManager UIManager;
 
         #endregion
 
@@ -46,7 +44,7 @@ namespace Script.Manager
 
         public void LevelStart()
         {
-            UIManager.LevelCompleted.SetActive(false);
+            UIManager.Instance.LevelCompleted.SetActive(false);
             var cameraAngle = mainCamera.transform.parent.transform.localEulerAngles;
             DOTween.To(() => cameraAngle.y, y => cameraAngle.y = y, -6.186f, 1).OnUpdate(() =>
             {

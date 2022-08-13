@@ -6343,7 +6343,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   platformManager: {fileID: 2115065040}
-  UIManager: {fileID: 1385009043}
+  gameManager: {fileID: 2110475949}
 --- !u!4 &1152444606
 Transform:
   m_ObjectHideFlags: 0
